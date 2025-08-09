@@ -22,27 +22,32 @@
 
     <div id="game-container" class="not-start">
         <div id="ui-panel">
-            <div class="ui-item">
-                <span class="label">Cấp độ</span>
-                <span id="level">1</span>
-            </div>
-            <div class="ui-item">
-                <span class="label">Điểm</span>
-                <span id="score">0</span>
-            </div>
-            <div id="time-bar-container" style="width: 200px;">
+            <div id="time-bar-container">
                 <div id="time-bar"></div>
             </div>
-            <div class="ui-item">
-                <button id="shuffle-btn">
-                    Xáo trộn <span id="shuffles-left">(2)</span>
-                </button>
+            
+            <div class="ui-row">
+                <div class="ui-item">
+                    <span class="label">Cấp độ</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="ui-item">
+                    <span class="label">Điểm</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="ui-item">
+                    <button id="shuffle-btn">
+                        🔀 <span id="shuffles-left">(2)</span>
+                    </button>
+                </div>
+                <div id="sound-controls" class="ui-item">
+                    <button id="bgm-toggle-btn" class="sound-btn" title="Bật/Tắt nhạc nền">🎵</button>
+                    <button id="master-mute-btn" class="sound-btn" title="Bật/Tắt tất cả âm thanh">🔈</button>
+                    <button id="save-btn" title="Lưu game hiện tại">💾</button>
+               </div>
             </div>
-            <div id="sound-controls" class="ui-item">
-                <button id="bgm-toggle-btn" class="sound-btn" title="Bật/Tắt nhạc nền">🎵</button>
-                <button id="master-mute-btn" class="sound-btn" title="Bật/Tắt tất cả âm thanh">🔈</button>
-                <button id="save-btn" title="Lưu game hiện tại">💾 Lưu</button>
-           </div>
+            
+           
            <div id="debug-toolbar">
                <h3 class="debug-title">-- DEBUG PANEL --</h3>
                <button id="debug-win-btn" class="debug-btn">Qua Màn</button>

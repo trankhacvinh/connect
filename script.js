@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mốc 768px là một breakpoint phổ biến cho mobile/tablet.
         if (window.innerWidth <= 768) {
             // Thiết lập cho Mobile
-            GRID_WIDTH = 15;
-            GRID_HEIGHT = 4;
+            GRID_WIDTH = 6;
+            GRID_HEIGHT = 13;
         } else {
             // Thiết lập cho Desktop
             GRID_WIDTH = 30;

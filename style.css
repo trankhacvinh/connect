@@ -24,7 +24,7 @@ body {
 }
 
 .not-start {
-    display: none!important;
+    display: none !important;
 }
 
 /* Màn hình bắt đầu */
@@ -47,7 +47,8 @@ body {
 }
 
 #start-screen h1 {
-    font-size: clamp(2em, 8vw, 4em); /* Kích thước font linh hoạt */
+    font-size: clamp(2em, 8vw, 4em);
+    /* Kích thước font linh hoạt */
     margin-bottom: 20px;
     color: #e94560;
     text-shadow: 3px 3px 0px #0f3460;
@@ -70,7 +71,7 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 #start-btn:hover {
@@ -85,12 +86,17 @@ body {
     width: 100%;
     height: 100%;
     padding: 15px;
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+    box-sizing: border-box;
+    /* Đảm bảo padding không làm tăng kích thước */
 }
+
 #game-board-container {
-    flex-grow: 1; /* Quan trọng: Giúp container chiếm hết không gian dọc còn lại */
-    position: relative; /* Để canvas có thể định vị tuyệt đối bên trong */
-    min-height: 0; /* Sửa lỗi flexbox overflow */
+    flex-grow: 1;
+    /* Quan trọng: Giúp container chiếm hết không gian dọc còn lại */
+    position: relative;
+    /* Để canvas có thể định vị tuyệt đối bên trong */
+    min-height: 0;
+    /* Sửa lỗi flexbox overflow */
 }
 
 
@@ -98,46 +104,57 @@ body {
 #ui-panel {
     display: flex;
     justify-content: space-between;
-    width: 100%; 
+    width: 100%;
     margin-bottom: 15px;
     padding: 10px;
     background: #0f3460;
     border-radius: 10px;
     box-sizing: border-box;
-    flex-shrink: 0; 
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    flex-wrap: nowrap;
 }
 
 .ui-item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 30px;
+    font-size: clamp(20px, 4vw, 30px);
     gap: 10px;
+    min-width: fit-content;
 }
 
 .ui-item .label {
-    font-size: 10px;
-    /* margin-bottom: 5px; */
+    font-size: clamp(8px, 2vw, 10px);
     color: #a7c5eb;
 }
 
-#shuffle-btn, .sound-btn {
+#shuffle-btn,
+.sound-btn {
+    display: flex;
+    gap: 3px;
     font-family: var(--font-family);
     background-color: #e94560;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: clamp(6px, 2vw, 8px) clamp(8px, 3vw, 12px);
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
-    font-size: 16px; /* Tăng kích thước icon */
+    font-size: clamp(14px, 3vw, 16px);
+    min-height: 36px;
+    align-items: center;
 }
 
-#shuffle-btn:hover, .sound-btn:hover {
+#shuffle-btn:hover,
+.sound-btn:hover {
     background-color: #f0627a;
 }
 
-#shuffle-btn:active, .sound-btn:active {
+#shuffle-btn:active,
+.sound-btn:active {
     transform: scale(0.95);
 }
 
@@ -153,16 +170,16 @@ body {
 
 /* Thanh thời gian */
 #time-bar-container {
-    /* width: 100%;  */
-    height: 20px;
-    width: 200px;
+    height: clamp(16px, 4vw, 20px);
+    width: clamp(120px, 25vw, 200px);
     align-items: center;
     align-self: center;
     background-color: #333;
     border-radius: 10px;
-    /* margin-bottom: 20px; */
     overflow: hidden;
     border: 2px solid #a7c5eb;
+    flex-shrink: 1;
+    min-width: 100px;
 }
 
 #time-bar {
@@ -182,7 +199,8 @@ body {
     background-color: var(--board-bg);
     padding: 10px;
     border-radius: 10px;
-    position: relative; /* Cho việc vẽ đường nối */
+    position: relative;
+    /* Cho việc vẽ đường nối */
 }
 
 /* Các ô trong bảng */
@@ -194,21 +212,26 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px; /* Kích thước icon */
+    font-size: 24px;
+    /* Kích thước icon */
     transition: transform 0.2s, background-color 0.2s;
-    user-select: none; /* Ngăn chọn văn bản */
+    user-select: none;
+    /* Ngăn chọn văn bản */
     overflow: hidden;
 }
 
 .cell img {
     width: 90%;
     height: 90%;
-    object-fit: contain; /* Hiển thị ảnh vừa vặn trong ô */
-    pointer-events: none; /* Ngăn ảnh bắt sự kiện click */
+    object-fit: contain;
+    /* Hiển thị ảnh vừa vặn trong ô */
+    pointer-events: none;
+    /* Ngăn ảnh bắt sự kiện click */
 }
 
 .cell.hidden {
-    visibility: hidden; /* Ẩn ô đã được nối */
+    visibility: hidden;
+    /* Ẩn ô đã được nối */
     cursor: default;
 }
 
@@ -292,13 +315,15 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    pointer-events: none; /* Cho phép click xuyên qua canvas */
+    pointer-events: none;
+    /* Cho phép click xuyên qua canvas */
     z-index: 99;
 }
 
 /* --- DEBUG TOOLBAR STYLES --- */
 #debug-toolbar {
-    display: none; /* Ẩn mặc định */
+    display: none;
+    /* Ẩn mặc định */
     margin-top: 20px;
     padding: 15px;
     background-color: #2c3e50;
@@ -310,7 +335,8 @@ body {
 }
 
 #debug-toolbar.visible {
-    display: flex; /* Hiện khi có class 'visible' */
+    display: flex;
+    /* Hiện khi có class 'visible' */
 }
 
 .debug-title {
@@ -340,6 +366,7 @@ body {
 .debug-btn:active {
     transform: scale(0.95);
 }
+
 /* --- KIỂU CHO TÍNH NĂNG LƯU/TẢI GAME --- */
 
 /* Nút "Tiếp tục chơi" trên màn hình bắt đầu */
@@ -358,7 +385,7 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 #load-btn:hover {
@@ -379,15 +406,20 @@ body {
     background-color: #2980b9;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: clamp(6px, 2vw, 8px) clamp(8px, 3vw, 12px);
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
-    font-size: 16px;
+    font-size: clamp(14px, 3vw, 16px);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
 }
+
 #save-btn:hover {
     background-color: #3498db;
 }
+
 #save-btn:active {
     transform: scale(0.95);
 }
@@ -416,8 +448,123 @@ body {
 }
 
 #save-toast.saving {
-    background-color: #e67e22; /* Màu cam khi đang lưu */
+    background-color: #e67e22;
+    /* Màu cam khi đang lưu */
 }
+
 #save-toast.hidden {
     display: none;
+}
+
+/* UI Row for grouping elements */
+.ui-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+/* Mobile responsive styles */
+@media screen and (max-width: 768px) {
+    #ui-panel {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .ui-row {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 15px;
+    }
+
+    .ui-item {
+        font-size: clamp(18px, 5vw, 24px);
+        justify-content: center;
+        min-width: auto;
+        flex: 0 1 auto;
+    }
+
+    #time-bar-container {
+        width: 100%;
+        max-width: none;
+        margin-bottom: 5px;
+    }
+
+    #sound-controls {
+        justify-content: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    #shuffle-btn,
+    .sound-btn,
+    #save-btn {
+        font-size: clamp(16px, 4vw, 18px);
+        padding: 10px 15px;
+        min-height: 44px;
+        /* Better touch target */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #ui-panel {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .ui-row {
+        gap: 10px;
+    }
+
+    .ui-item {
+        font-size: clamp(16px, 6vw, 20px);
+    }
+
+    .ui-item .label {
+        font-size: clamp(10px, 3vw, 12px);
+    }
+
+    #shuffle-btn,
+    .sound-btn,
+    #save-btn {
+        font-size: clamp(14px, 4vw, 16px);
+        padding: 8px 12px;
+        min-height: 40px;
+    }
+
+    #sound-controls {
+        gap: 10px;
+        flex: 0 1 auto;
+        width: auto;
+    }
+}
+
+/* Landscape mobile optimization */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    #ui-panel {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .ui-item {
+        font-size: clamp(14px, 4vw, 18px);
+    }
+
+    .ui-item .label {
+        font-size: clamp(8px, 2vw, 10px);
+    }
+
+    #time-bar-container {
+        height: 16px;
+    }
+
+    #shuffle-btn,
+    .sound-btn,
+    #save-btn {
+        font-size: clamp(12px, 3vw, 14px);
+        padding: 6px 10px;
+        min-height: 32px;
+    }
 }

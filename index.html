@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Nối Hình</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Game Nối Hình</h1>
+        <p>Hãy tìm và nối các cặp hình giống nhau!</p>
+        <button id="start-btn">Bắt đầu chơi mới</button>
+        <div id="load-game-container" class="hidden">
+            <button id="load-btn">Tiếp tục chơi</button>
+            <p id="save-info"></p>
+        </div>
+    </div>
+
+    <div id="game-container" class="not-start">
+        <div id="ui-panel">
+            <div class="ui-item">
+                <span class="label">Cấp độ</span>
+                <span id="level">1</span>
+            </div>
+            <div class="ui-item">
+                <span class="label">Điểm</span>
+                <span id="score">0</span>
+            </div>
+            <div id="time-bar-container" style="width: 200px;">
+                <div id="time-bar"></div>
+            </div>
+            <div class="ui-item">
+                <button id="shuffle-btn">
+                    Xáo trộn <span id="shuffles-left">(2)</span>
+                </button>
+            </div>
+            <div id="sound-controls" class="ui-item">
+                <button id="bgm-toggle-btn" class="sound-btn" title="Bật/Tắt nhạc nền">🎵</button>
+                <button id="master-mute-btn" class="sound-btn" title="Bật/Tắt tất cả âm thanh">🔈</button>
+                <button id="save-btn" title="Lưu game hiện tại">💾 Lưu</button>
+           </div>
+           <div id="debug-toolbar">
+               <h3 class="debug-title">-- DEBUG PANEL --</h3>
+               <button id="debug-win-btn" class="debug-btn">Qua Màn</button>
+               <button id="debug-lose-btn" class="debug-btn">Thua Game</button>
+               <button id="debug-add-time-btn" class="debug-btn">+30 giây</button>
+           </div>
+        </div>
+
+
+        <div id="game-board"></div>
+
+        <div id="level-mechanic-display"></div>
+    </div>
+
+    <div id="modal" class="hidden">
+        <div id="modal-content">
+            <h2 id="modal-title">Bạn đã thắng!</h2>
+            <p id="modal-text">Điểm của bạn: 1234</p>
+            <button id="modal-btn">Chơi màn tiếp theo</button>
+        </div>
+    </div>
+
+    <div id="save-toast" class="hidden">Đã lưu!</div>
+
+    <audio id="bgm"></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

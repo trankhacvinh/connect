@@ -1,0 +1,423 @@
+/* Thiết lập font chữ và các biến màu */
+:root {
+    --bg-color: #1a1a2e;
+    --board-bg: #e0e0e0;
+    --cell-bg: #ffffff;
+    --cell-border: #9e9e9e;
+    --selected-color: #4CAF50;
+    --path-color: #f44336;
+    --text-color: #ffffff;
+    --font-family: 'Tiny5', cursive;
+}
+
+/* Thiết lập cơ bản cho trang */
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.not-start {
+    display: none!important;
+}
+
+/* Màn hình bắt đầu */
+#start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    text-align: center;
+    color: var(--text-color);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#start-screen h1 {
+    font-size: clamp(2em, 8vw, 4em); /* Kích thước font linh hoạt */
+    margin-bottom: 20px;
+    color: #e94560;
+    text-shadow: 3px 3px 0px #0f3460;
+}
+
+#start-screen p {
+    font-size: clamp(1em, 4vw, 1.2em);
+    margin-bottom: 40px;
+    color: #a7c5eb;
+    max-width: 600px;
+}
+
+#start-btn {
+    font-family: var(--font-family);
+    font-size: clamp(1.2em, 5vw, 1.5em);
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: 3px solid #66bb6a;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#start-btn:hover {
+    background-color: #66bb6a;
+    transform: scale(1.05);
+}
+
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+}
+#game-board-container {
+    flex-grow: 1; /* Quan trọng: Giúp container chiếm hết không gian dọc còn lại */
+    position: relative; /* Để canvas có thể định vị tuyệt đối bên trong */
+    min-height: 0; /* Sửa lỗi flexbox overflow */
+}
+
+
+/* Giao diện người dùng (Điểm, Cấp độ, Nút) */
+#ui-panel {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; 
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #0f3460;
+    border-radius: 10px;
+    box-sizing: border-box;
+    flex-shrink: 0; 
+}
+
+.ui-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 30px;
+    gap: 10px;
+}
+
+.ui-item .label {
+    font-size: 10px;
+    /* margin-bottom: 5px; */
+    color: #a7c5eb;
+}
+
+#shuffle-btn, .sound-btn {
+    font-family: var(--font-family);
+    background-color: #e94560;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    font-size: 16px; /* Tăng kích thước icon */
+}
+
+#shuffle-btn:hover, .sound-btn:hover {
+    background-color: #f0627a;
+}
+
+#shuffle-btn:active, .sound-btn:active {
+    transform: scale(0.95);
+}
+
+#shuffle-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+#sound-controls {
+    flex-direction: row;
+    gap: 10px;
+}
+
+/* Thanh thời gian */
+#time-bar-container {
+    /* width: 100%;  */
+    height: 20px;
+    width: 200px;
+    align-items: center;
+    align-self: center;
+    background-color: #333;
+    border-radius: 10px;
+    /* margin-bottom: 20px; */
+    overflow: hidden;
+    border: 2px solid #a7c5eb;
+}
+
+#time-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A, #FFEB3B, #FF9800, #f44336);
+    background-size: 200% 100%;
+    border-radius: 8px;
+    transition: width 0.5s linear;
+}
+
+/* Bảng chơi */
+#game-board {
+    display: grid;
+    /* Kích thước grid sẽ được đặt bởi JS */
+    gap: 4px;
+    background-color: var(--board-bg);
+    padding: 10px;
+    border-radius: 10px;
+    position: relative; /* Cho việc vẽ đường nối */
+}
+
+/* Các ô trong bảng */
+.cell {
+    background-color: var(--cell-bg);
+    border: 1px solid var(--cell-border);
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px; /* Kích thước icon */
+    transition: transform 0.2s, background-color 0.2s;
+    user-select: none; /* Ngăn chọn văn bản */
+    overflow: hidden;
+}
+
+.cell img {
+    width: 90%;
+    height: 90%;
+    object-fit: contain; /* Hiển thị ảnh vừa vặn trong ô */
+    pointer-events: none; /* Ngăn ảnh bắt sự kiện click */
+}
+
+.cell.hidden {
+    visibility: hidden; /* Ẩn ô đã được nối */
+    cursor: default;
+}
+
+.cell:not(.hidden):hover {
+    transform: scale(1.1);
+    background-color: #f0f0f0;
+}
+
+.cell.selected {
+    background-color: var(--selected-color);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px var(--selected-color);
+    color: white;
+}
+
+/* Chú thích cơ chế màn chơi */
+#level-mechanic-display {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #a7c5eb;
+    min-height: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Modal thông báo */
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#modal.hidden {
+    display: none;
+}
+
+#modal-content {
+    background-color: #16213e;
+    padding: 30px 40px;
+    border-radius: 15px;
+    text-align: center;
+    border: 3px solid #e94560;
+    box-shadow: 0 0 20px #e94560;
+}
+
+#modal-title {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+#modal-text {
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+#modal-btn {
+    font-family: var(--font-family);
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+#modal-btn:hover {
+    background-color: #66bb6a;
+}
+
+/* Canvas để vẽ đường nối */
+#path-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Cho phép click xuyên qua canvas */
+    z-index: 99;
+}
+
+/* --- DEBUG TOOLBAR STYLES --- */
+#debug-toolbar {
+    display: none; /* Ẩn mặc định */
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #2c3e50;
+    border-radius: 8px;
+    border: 2px solid #f1c40f;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+#debug-toolbar.visible {
+    display: flex; /* Hiện khi có class 'visible' */
+}
+
+.debug-title {
+    margin: 0;
+    padding-right: 15px;
+    border-right: 2px solid #f1c40f;
+    font-size: 12px;
+    color: #f1c40f;
+}
+
+.debug-btn {
+    font-family: var(--font-family);
+    background-color: #e67e22;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.debug-btn:hover {
+    background-color: #d35400;
+}
+
+.debug-btn:active {
+    transform: scale(0.95);
+}
+/* --- KIỂU CHO TÍNH NĂNG LƯU/TẢI GAME --- */
+
+/* Nút "Tiếp tục chơi" trên màn hình bắt đầu */
+#load-game-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#load-btn {
+    font-family: var(--font-family);
+    font-size: clamp(1em, 4vw, 1.3em);
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: 3px solid #3498db;
+    background-color: #2980b9;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#load-btn:hover {
+    background-color: #3498db;
+    transform: scale(1.05);
+}
+
+#save-info {
+    margin-top: 10px;
+    font-size: clamp(0.8em, 3vw, 1em);
+    color: #bdc3c7;
+}
+
+
+/* Nút Lưu game trong UI Panel */
+#save-btn {
+    font-family: var(--font-family);
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    font-size: 16px;
+}
+#save-btn:hover {
+    background-color: #3498db;
+}
+#save-btn:active {
+    transform: scale(0.95);
+}
+
+/* Thông báo Lưu game (Toast) */
+#save-toast {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    background-color: #2ecc71;
+    color: white;
+    padding: 6px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+#save-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#save-toast.saving {
+    background-color: #e67e22; /* Màu cam khi đang lưu */
+}
+#save-toast.hidden {
+    display: none;
+}

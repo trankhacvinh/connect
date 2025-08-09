@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth <= 768) {
             // Thiết lập cho Mobile
             GRID_WIDTH = 15;
-            GRID_HEIGHT = 6;
+            GRID_HEIGHT = 4;
         } else {
             // Thiết lập cho Desktop
             GRID_WIDTH = 30;

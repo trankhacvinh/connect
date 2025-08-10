@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mốc 768px là một breakpoint phổ biến cho mobile/tablet.
         if (window.innerWidth <= 768) {
             // Thiết lập cho Mobile
-            GRID_WIDTH = 6;
-            GRID_HEIGHT = 13;
+            GRID_WIDTH = 8;
+            GRID_HEIGHT = 14;
         } else {
             // Thiết lập cho Desktop
             GRID_WIDTH = 30;
@@ -670,6 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- XỬ LÝ ÂM THANH ---
     function playBGM() {
         if (hasInteracted && !isBgmMuted && !isMasterMuted) {
+            currentBgmIndex = Math.floor(Math.random() * BGM_TRACKS.length);
             bgm.src = BGM_TRACKS[currentBgmIndex];
             bgm.play().catch(e => console.log("Trình duyệt chặn tự động phát âm thanh."));
         }

@@ -9,6 +9,19 @@
     --text-color: #ffffff;
     --font-family: 'Tiny5', cursive;
 }
+/* Remove tap highlights và improve touch */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    tap-highlight-color: transparent;
+}
+
+/* Prevent overscroll và bounce effects */
+html {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+}
 
 /* Thiết lập cơ bản cho trang */
 body {
@@ -21,6 +34,24 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent bounce effect on iOS */
+    position: fixed; 
+    /* Prevent text selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    /* Smooth fonts */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Fixed height for PWA */ 
+    height: -webkit-fill-available;
 }
 
 .not-start {
@@ -214,7 +245,7 @@ body {
     align-items: center;
     font-size: 24px;
     /* Kích thước icon */
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.15s ease-out, background-color 0.15s ease-out;
     user-select: none;
     /* Ngăn chọn văn bản */
     overflow: hidden;
@@ -237,7 +268,7 @@ body {
 
 .cell:not(.hidden):hover {
     transform: scale(1.1);
-    background-color: #f0f0f0;
+    background-color: var(--selected-color);
 }
 
 .cell.selected {
@@ -544,7 +575,8 @@ body {
         flex: 0 1 auto;
         width: auto;
     }
-    #level-mechanic-display{
+
+    #level-mechanic-display {
         margin-top: 5px;
     }
 }
@@ -574,5 +606,134 @@ body {
         font-size: clamp(12px, 3vw, 14px);
         padding: 6px 10px;
         min-height: 32px;
+    }
+}
+
+/* Tối ưu cho notch (iPhone X+) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+
+/* Prevent text selection và zoom */
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Touch feedback improvements */
+button, .cell, .ui-item {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+}
+
+/* Hide address bar on mobile browsers */
+@media screen and (max-device-width: 768px) {
+
+    html,
+    body {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+
+    #game-container {
+        height: 100vh;
+        height: -webkit-fill-available;
+    }
+}
+
+/* Fullscreen mode styles */
+.pwa-mode {
+    /* Additional styles when running as PWA */
+}
+
+/* Status bar styling for PWA */
+@media all and (display-mode: fullscreen) {
+    body {
+        padding-top: 20px;
+        /* Status bar height */
+    }
+}
+
+/* Safe area support (iPhone X+ notch) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    
+    #start-screen, #game-container {
+        min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        min-height: calc(-webkit-fill-available - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+}
+
+/* GPU acceleration for animations */
+.cell, #time-bar, button {
+    will-change: transform;
+    transform: translateZ(0);
+}
+button:focus, .cell:focus {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
+}
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --cell-border: #000000;
+        --selected-color: #00ff00;
+        --path-color: #ff0000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .cell, #time-bar, button {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .cell:hover, .cell.selected {
+        transform: none !important;
+    }
+}
+
+
+/* ===== LOADING STATE ===== */
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--text-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
 }
